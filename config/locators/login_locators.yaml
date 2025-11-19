@@ -1,0 +1,2 @@
+login_button:
+  locator : ".top-nav-left a[href*='logininfo.html'] >> text=登录"
