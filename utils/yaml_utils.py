@@ -16,3 +16,8 @@ class YamlUtils:
         print(f"程序实际查找的配置文件路径：{full_path}")  # 新增打印
         with open(full_path, "r", encoding="utf-8") as f:
             return yaml.safe_load(f)
+
+    @staticmethod
+    def get_account():
+        """读取账号密码配置"""
+        return YamlUtils.load_yaml("config/account.yaml")["test_account"]

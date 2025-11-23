@@ -32,3 +32,7 @@ class BasePage:
     def click(self, locator: str):
         """点击指定定位的元素"""
         self.page.locator(locator).click()
+
+    def input_text(self, locator, text):
+        """封装输入文本的通用方法"""
+        self.page.locator(locator).fill(text)

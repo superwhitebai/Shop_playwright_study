@@ -1,2 +1,10 @@
 login_button:
-  locator : ".top-nav-left a[href*='logininfo.html'] >> text=登录"
+  locator: ".top-nav-left a[href*='logininfo.html'] >> text=登录"
+login_input:
+  locator: "input[name='accounts'][placeholder='请输入用户名/手机/邮箱']"
+password_input:
+  locator: "input[name='pwd'][placeholder='请输入登录密码']"
+form_login_button:
+  locator: "xpath=/html/body/div[4]/div/div[2]/div[2]/div/div/div[1]/form/div[3]/button"
+toast_message_locator:
+  locator: "text=密码错误"
