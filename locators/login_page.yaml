@@ -1,0 +1,29 @@
+#login_button:
+#  locator: ".top-nav-left a[href*='logininfo.html'] >> text=登录"
+#login_input:
+#  locator: "input[name='accounts'][placeholder='请输入用户名/手机/邮箱']"
+#password_input:
+#  locator: "input[name='pwd'][placeholder='请输入登录密码']"
+#form_login_button:
+#  locator: "xpath=/html/body/div[4]/div/div[2]/div[2]/div/div/div[1]/form/div[3]/button"
+#toast_message_locator:
+#  locator: "text=密码错误"
+
+
+login_button:
+  locator: ".top-nav-left a[href*='logininfo.html'] >> text=登录"
+
+login_input:
+  locator: "input[name='accounts'][placeholder='请输入用户名/手机/邮箱']"
+
+password_input:
+  locator: "input[name='pwd'][placeholder='请输入登录密码']"
+
+form_login_button:
+  # ✨ 修复点：添加 >> visible=true，只定位当前可见的那个按钮，排除隐藏的重复元素
+  locator: "form button:has-text('登录') >> visible=true"
+
+toast_message_locator:
+  #
+  locator: ".am-layer-content"
+toast_message_locator:

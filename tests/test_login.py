@@ -9,38 +9,51 @@ import allure
 from pages.login_page import LoginPage
 from utils.yaml_utils import YamlUtils
 
+# !/usr/bin/env python
+# -*- coding: utf-8 -*-
+import pytest
+import allure
+from pages.login_page import LoginPage
+from utils.yaml_utils import YamlUtils
 
-@allure.feature("ShopXO 登录流程")
+# 加载测试数据
+test_data = YamlUtils.load_data("login_data.yaml")
+
+
+@allure.feature("ShopXO 登录模块")
 class TestLogin:
-    def test_open_url_and_click_login(self, page, config):
+
+    @allure.story("登录场景覆盖")
+    @pytest.mark.parametrize("case_info", test_data)
+    def test_login_scenarios(self, page, config, case_info):
+        allure.dynamic.title(case_info['case_title'])
+
         login_page = LoginPage(page)
-        login_page.goto(config["base_url"])
-        login_page.click_login_button()
-        account = YamlUtils.get_account()
+        login_page.load_locators("login_page.yaml")
 
-        # 输入账号 + 错误密码（触发Toast）
-        login_page.input_login_input(account["username"])
-        login_page.input_password_input(account["password"])  # 错误密码
+        with allure.step(f"访问首页: {config['base_url']}"):
+            login_page.goto(config["base_url"])
+            login_page.click_login_button()
 
-        # 调试打印
-        print("当前登录按钮定位符：", login_page.form_login_button_locator)
-        print("匹配元素数量：", page.locator(login_page.form_login_button_locator).count())
+        with allure.step(f"输入账号: {case_info['username']} / 密码: {case_info['password']}"):
+            login_page.input_login_input(case_info['username'])
+            login_page.input_password_input(case_info['password'])
+            login_page.click_form_login_button()
 
-        # 点击登录提交
-        login_page.click_form_login_button()
-
-        # 捕获Toast
-        toast_text = login_page.get_password_error_toast()
-        print(f"密码错误时的Toast：{toast_text}")
-
-        # 🌟 显性断言（带明确提示）
-        expected_keywords = ["密码错误", "账号或密码不正确"]
-        # 检查Toast是否包含任意预期关键词
-        assert any(keyword in toast_text for keyword in expected_keywords), \
-            f"""
-            ❌ 断言失败！
-            预期Toast包含：{expected_keywords}
-            实际Toast文本：{toast_text}
-            """
-        # 只有断言成功才会执行这行（显性成功提示）
-        print("✅ 断言成功！Toast文本符合预期！")
+        # 3. 智能断言逻辑
+        if case_info['expect_result'] == 'success':
+            with allure.step("验证登录成功"):
+                # ✨ 核心修复：不要直接 assert，而是先“等待”关键元素出现
+                # 这行代码的意思是：最多等10秒，直到页面上出现包含预期关键词的元素
+                try:
+                    page.wait_for_selector(f"text={case_info['assert_keyword']}", timeout=10000)
+                except Exception:
+                    # 如果超时没找到，再截图报错，方便排查
+                    allure.attach(page.screenshot(), "失败截图", allure.attachment_type.PNG)
+                    raise AssertionError(f"登录超时！页面未找到关键词: {case_info['assert_keyword']}")
+        else:
+            with allure.step("验证错误提示"):
+                # 获取 Toast 本身已经内置了等待，所以这里直接断言即可
+                actual_toast = login_page.get_password_error_toast()
+                assert case_info['assert_keyword'] in actual_toast, \
+                    f"断言失败！预期包含 '{case_info['assert_keyword']}'，实际得到 '{actual_toast}'"
