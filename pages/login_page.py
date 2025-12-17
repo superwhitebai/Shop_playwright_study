@@ -13,22 +13,32 @@ from pages.base_page import BasePage
 import allure
 from pages.base_page import BasePage
 
+# !/usr/bin/env python
+# -*- coding: utf-8 -*-
+import allure
+from pages.base_page import BasePage
+
 
 class LoginPage(BasePage):
     def __init__(self, page):
         super().__init__(page)
+        # 加载 yaml 定位文件
         self.load_locators("login_page.yaml")
 
-        # 初始化属性
+        # 初始化属性（从 yaml 中读取）
         self.login_input_locator = self.locators["login_input"]["locator"]
         self.password_input_locator = self.locators["password_input"]["locator"]
         self.form_login_button_locator = self.locators["form_login_button"]["locator"]
         self.toast_message_locator = self.locators["toast_message_locator"]["locator"]
-        self.login_button_locator = self.locators["login_button"]["locator"]
 
-    @allure.step("点击登录按钮")
+        # 退出相关的定位（确保你的 locators yaml 里加了 logout_button）
+        # 使用 .get 防止 yaml 里没写报错
+        self.logout_button_locator = self.locators.get("logout_button", {}).get("locator")
+
+    @allure.step("点击登录按钮（进入登录页）")
     def click_login_button(self):
-        self.click(self.login_button_locator)
+        # 注意：这里点击的是首页顶部的“登录”链接
+        self.click(self.locators["login_button"]["locator"])
 
     @allure.step("输入登录账号")
     def input_login_input(self, username):
@@ -41,13 +51,21 @@ class LoginPage(BasePage):
     @allure.step("点击表单内的登录提交按钮")
     def click_form_login_button(self):
         locator = self.page.locator(self.form_login_button_locator)
-        # 这里的 visible=true 已经在 yaml 里处理了，这里直接等待即可
         locator.wait_for(state="visible", timeout=10000)
         locator.click()
 
-    @allure.step("捕获密码错误Toast")
-    def get_password_error_toast(self):
+    # ✨ 关键修复：新增这个通用获取错误提示的方法
+    @allure.step("获取页面错误提示文本")
+    def get_error_message(self):
         toast_locator = self.page.locator(self.toast_message_locator)
-        toast_locator.wait_for(state="visible", timeout=10000)
-        # 返回Toast文本
+        # 等待错误提示出现
+        toast_locator.wait_for(state="visible", timeout=5000)
         return toast_locator.text_content().strip()
+
+    # ✨ 关键新增：退出登录方法
+    @allure.step("点击退出登录")
+    def click_logout(self):
+        if not self.logout_button_locator:
+            raise ValueError("Yaml中缺少 logout_button 定位符，请检查 locators/login_page.yaml")
+        self.page.locator(self.logout_button_locator).wait_for(state="visible")
+        self.click(self.logout_button_locator)
