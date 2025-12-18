@@ -23,7 +23,6 @@ def get_logger(name: str = "ui") -> logging.Logger:
     with open(LOG_CONFIG_PATH, "r", encoding="utf-8") as f:
         config = yaml.safe_load(f)
 
-    # 如果 handler 里有相对路径 filename，自动加上 ROOT_DIR
     for handler in config.get("handlers", {}).values():
         filename = handler.get("filename")
         if filename and not os.path.isabs(filename):

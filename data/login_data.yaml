@@ -1,12 +1,11 @@
 # data/login_data.yaml
 
-
 # 1. 登录成功
 - case_title: "登录成功_正确账号密码"
   username: "qa1234"
   password: "123456"
   expect_result: "success"
-  assert_keyword: "退出"  # 登录成功后，页面会有“退出”按钮
+  assert_keyword: "退出"
 
 # 2. 登录失败_密码错误
 - case_title: "登录失败_密码错误"
@@ -20,11 +19,11 @@
   username: ""           # 留空
   password: "123456"
   expect_result: "alert_error"
-  assert_keyword: "请填写登录账号" # ✨请确认实际网页提示是否是这个
+  assert_keyword: "请填写登录账号"
 
 # 4. 登录失败_未输入密码
 - case_title: "登录失败_未输入密码"
   username: "qa1234"
   password: ""           # 留空
   expect_result: "alert_error"
-  assert_keyword: "密码格式 6~18 个字符" # ✨请确认实际网页提示是否是这个
+  assert_keyword: "密码格式 6~18 个字符"
