@@ -1,0 +1,4 @@
+allure-python-commons~=2.13.2
+playwright~=1.52.0
+pytest~=7.4.4
+PyYAML~=5.3
