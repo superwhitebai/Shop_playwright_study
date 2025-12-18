@@ -29,8 +29,9 @@ toast_message_locator:
 
 logout_button:
   # 登录成功后显示的退出按钮
-  locator: "text=退出"
+  locator: ".top-nav-left >> text=退出"
 
 logout_success_toast:
   # 退出成功后的提示（如果有的话，通常也是用 prompt-msg）
   locator: ".prompt-msg"
+
