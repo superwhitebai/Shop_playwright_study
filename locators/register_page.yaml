@@ -1,0 +1,29 @@
+# 1. 首页的“注册”链接
+# 原录制: get_by_role("link", name="注册").first
+# 翻译后: role=link[name="注册"] >> nth=0
+enter_register_link:
+  locator: "role=link[name='注册'] >> nth=0"
+
+# 2. 用户名输入框
+# 原录制: get_by_role("textbox", name="请使用字母、数字、下划线 2~18 个字符")
+# 翻译后: 直接用 placeholder 属性最稳
+username_input:
+  locator: "input[placeholder='请使用字母、数字、下划线 2~18 个字符']"
+
+# 3. 密码输入框
+# 原录制: get_by_role("textbox", name="设置登录密码")
+# 翻译后:
+password_input:
+  # 确保只有首尾各一个引号
+  locator: "input[placeholder='设置登录密码'] >> visible=true"
+
+# 4. 注册按钮
+# 原录制: get_by_role("button", name="注册")
+# 翻译后:
+register_button:
+  locator: "role=button[name='注册']"
+
+# 5. 注册成功的 Toast 提示
+# 这个通常还是用之前的那个通用定位符
+prompt_message:
+  locator: "text=注册成功"
