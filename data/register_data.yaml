@@ -1,0 +1,6 @@
+- case_title: "注册成功_普通账号"
+  # 这里写你想要的前缀，代码会自动生成 Wenl_17123... 这样的唯一账号
+  username_prefix: "Wenl"
+  password: "123456"
+  expect_result: "success"
+  assert_keyword: "注册成功"
