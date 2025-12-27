@@ -31,13 +31,10 @@ class LoginPage(BasePage):
         self.form_login_button_locator = self.locators["form_login_button"]["locator"]
         self.toast_message_locator = self.locators["toast_message_locator"]["locator"]
 
-        # 退出相关的定位（确保你的 locators yaml 里加了 logout_button）
-        # 使用 .get 防止 yaml 里没写报错
         self.logout_button_locator = self.locators.get("logout_button", {}).get("locator")
 
     @allure.step("点击登录按钮（进入登录页）")
     def click_login_button(self):
-        # 注意：这里点击的是首页顶部的“登录”链接
         self.click(self.locators["login_button"]["locator"])
 
     @allure.step("输入登录账号")
@@ -54,15 +51,12 @@ class LoginPage(BasePage):
         locator.wait_for(state="visible", timeout=10000)
         locator.click()
 
-    # ✨ 关键修复：新增这个通用获取错误提示的方法
     @allure.step("获取页面错误提示文本")
     def get_error_message(self):
         toast_locator = self.page.locator(self.toast_message_locator)
-        # 等待错误提示出现
         toast_locator.wait_for(state="visible", timeout=5000)
         return toast_locator.text_content().strip()
 
-    # ✨ 关键新增：退出登录方法
     @allure.step("点击退出登录")
     def click_logout(self):
         if not self.logout_button_locator:

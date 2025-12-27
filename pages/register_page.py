@@ -13,7 +13,6 @@ class RegisterPage(BasePage):
         super().__init__(page)
         self.load_locators("register_page.yaml")
 
-        # 初始化定位符变量
         self.enter_register_link_loc = self.locators["enter_register_link"]["locator"]
         self.username_input_loc = self.locators["username_input"]["locator"]
         self.password_input_loc = self.locators["password_input"]["locator"]
@@ -38,11 +37,8 @@ class RegisterPage(BasePage):
 
     @allure.step("获取提示信息")
     def get_prompt_message(self):
-        # 等待提示出现并获取文本
         return self.page.locator(self.prompt_message_loc).wait_for(state="visible").text_content()
 
     @allure.step("获取注册成功提示")
     def get_success_message(self):
-        # 这里的 text=注册成功 可能会有多个（比如页面标题），我们加上 visible=true 确保是弹出来的那个
-        # 也可以用 self.page.get_by_text("注册成功", exact=True)
         return self.page.locator(self.register_success_loc).wait_for(state="visible", timeout=10000).text_content()

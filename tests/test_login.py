@@ -26,7 +26,7 @@ class TestLogin:
 
         with allure.step("步骤1：打开登录页"):
             login_page.goto(config["base_url"])
-            # page.pause()
+            # page.pause() # 打开浏览器后暂停，方便调试
             login_page.click_login_button()
 
         with allure.step(f"步骤2：输入账号[{case_info['username']}] 密码[{case_info['password']}]"):
@@ -34,7 +34,6 @@ class TestLogin:
             login_page.input_password_input(case_info['password'])
             login_page.click_form_login_button()
 
-        # 拿预期结果进行断言
         if case_info['expect_result'] == 'success':
             with allure.step("断言：登录成功"):
                 page.wait_for_selector(f"text={case_info['assert_keyword']}")
