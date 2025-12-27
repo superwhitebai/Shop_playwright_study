@@ -1,0 +1,14 @@
+# data/buy_data.yaml
+
+- case_title: "购物流程_搜索手机_加购下单"
+  search_keyword: "手机"
+  expect_result: "success"
+
+  # --- 新增地址数据 ---
+  addr_alias: "就这样"
+  addr_name: "Wenl"
+  addr_tel: "13221010902"
+  addr_province: "安徽省" # 请确保这是列表中真实存在的名字
+  addr_city: "阜阳市"
+  addr_district: "界首市" # 如果你的 "代桥镇" 是区县级请填这里，如果不是请填下一级
+  addr_detail: "代桥镇"

@@ -1,0 +1,85 @@
+search_input:
+  locator: "#search-input"
+
+search_button:
+  locator: "#ai-topsearch"
+
+target_product:
+  locator: "text=Samsung/三星 SM-G8508S GALAXY"
+
+quantity_increase_button:
+  locator: "role=button[name='+']"
+
+add_to_cart_button:
+  locator: "role=button[name=' 加入购物车']"
+
+buy_now_button:
+  locator: "role=button[name='立即购买']"
+
+
+# --- 确认订单页面 ---
+
+# "使用新地址" 按钮
+use_new_address_btn:
+  locator: "role=button[name='使用新地址']"
+
+# --- 新增地址弹窗 (位于 Iframe 内部) ---
+
+# 1. Iframe 定位符 (这是通往弹窗的大门)
+# 我们匹配 src 属性包含 'address' 的 iframe，这样最准
+address_iframe:
+  locator: "iframe[src*='address']"
+
+# 2. 表单输入框 (Iframe 内部)
+address_alias:
+  locator: "input[name='alias']"  # 别名
+
+address_name:
+  locator: "input[name='name']"   # 姓名
+
+address_tel:
+  locator: "input[name='tel']"    # 电话
+
+address_detail:
+  locator: "input[name='address']" # 详细地址
+
+# 3. 省市区下拉框触发器 (点击它们会弹出列表)
+# 这里使用 CSS 选择器定位包含特定文字的链接
+province_trigger:
+  locator: "a:has-text('省份')"
+
+city_trigger:
+  locator: "a:has-text('城市')"
+
+district_trigger:
+  locator: "a:has-text('区/县')"
+
+# 4. 保存按钮
+save_address_btn:
+  locator: "button:has-text('保存')"
+
+# --- 断言与支付元素 ---
+
+# 1. 加入购物车成功的 Toast 提示
+add_cart_success_toast:
+  locator: "text=加入成功"
+
+# 2. 确认订单页 - 快递邮寄 (用于断言)
+# 对应: get_by_role("link", name="快递邮寄")
+express_shipping_link:
+  locator: "role=link[name='快递邮寄']"
+
+# 3. 支付方式 - 货到付款
+# 对应: get_by_role("listitem").filter(has_text="货到付款")
+# 翻译: li 标签包含文字 "货到付款"
+payment_cod_item:
+  locator: "li:has-text('货到付款')"
+
+# 4. 提交订单按钮
+# 对应: get_by_role("button", name="提交订单")
+submit_order_button:
+  locator: "role=button[name='提交订单']"
+
+# 5. 提交订单成功的 Toast 提示
+submit_success_toast:
+  locator: "text=提交成功"
