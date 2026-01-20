@@ -25,8 +25,6 @@ class TestRegister:
         register_page.goto(config['base_url'])
         register_page.click_enter_register()
         unique_username = f"{case_info['username_prefix']}_{int(time.time())}"
-
-
         register_page.input_username(unique_username)
         register_page.input_password(case_info['password'])
         register_page.click_register_submit()

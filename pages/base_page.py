@@ -40,7 +40,9 @@ class BasePage:
     @allure.step("输入文本: {text}")
     def input_text(self, locator: str, text: str):
         self.logger.info(f"向元素 [{locator}] 输入文本: {text}")
-        self.page.locator(locator).fill(text)
+        element = self.page.locator(locator)
+        element.clear()
+        element.press_sequentially(text, delay=150)
 
     def log(self, message):
         self.logger.info(message)
